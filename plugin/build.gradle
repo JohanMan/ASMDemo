@@ -1,0 +1,39 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'org.ow2.asm:asm:9.1'
+    implementation 'org.ow2.asm:asm-commons:9.1'
+    compileOnly 'com.android.tools.build:gradle:3.5.4'
+}
+
+repositories {
+    jcenter()
+}
+
+sourceSets {
+    main{
+        groovy {
+            srcDir 'src/main/groovy'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+// 上传到本地的代码仓
+uploadArchives{
+    repositories.mavenDeployer{
+        // 本地仓库路径
+        repository(url: uri('../repo'))
+        // 设置 groupId
+        pom.groupId = 'com.johan.click.interceptor'
+        // 设置 artifactId
+        pom.artifactId = 'ClickInterceptor'
+        // 设置 插件版本号
+        pom.version = '1.0.0'
+    }
+}
